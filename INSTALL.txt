@@ -1,0 +1,12 @@
+BLEEP-BLOP-VOCAL-ICER - install on Mac
+=====================
+
+1. Copy "BLEEP-BLOP-VOCAL-ICER.vst3"      to  ~/Library/Audio/Plug-Ins/VST3/
+   Copy "BLEEP-BLOP-VOCAL-ICER.component" to  ~/Library/Audio/Plug-Ins/Components/
+
+2. Open Terminal and remove the download quarantine:
+   xattr -cr ~/Library/Audio/Plug-Ins/VST3/BLEEP-BLOP-VOCAL-ICER.vst3
+   xattr -cr ~/Library/Audio/Plug-Ins/Components/BLEEP-BLOP-VOCAL-ICER.component
+
+3. In Ableton: Settings > Plug-ins > Rescan.
+   BLEEP-BLOP-VOCAL-ICER shows up under Plug-ins > Sunrise Sound.
