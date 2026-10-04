@@ -1,0 +1,32 @@
+name: Build macOS
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+
+      - name: Build
+        run: cmake --build build --config Release --target BLEEP_VST3 BLEEP_AU -- -quiet
+
+      - name: Ad-hoc sign and package
+        run: |
+          mkdir -p dist
+          cp -R "build/BLEEP_artefacts/Release/VST3/BLEEP-BLOP-VOCAL-ICER.vst3" dist/
+          cp -R "build/BLEEP_artefacts/Release/AU/BLEEP-BLOP-VOCAL-ICER.component" dist/
+          codesign --force --deep -s - "dist/BLEEP-BLOP-VOCAL-ICER.vst3"
+          codesign --force --deep -s - "dist/BLEEP-BLOP-VOCAL-ICER.component"
+          cp INSTALL.txt dist/
+          cd dist && zip -r -y ../BLEEP-BLOP-VOCAL-ICER-mac.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BLEEP-BLOP-VOCAL-ICER-mac
+          path: BLEEP-BLOP-VOCAL-ICER-mac.zip
